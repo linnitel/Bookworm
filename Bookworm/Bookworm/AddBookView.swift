@@ -37,17 +37,22 @@ struct AddBookView: View {
 					RatingView(rating: $rating)
 				}
 
-				Section {
+				Section(hasValidAddress() == false ? "Please specify title and author of the book" : "") {
 					Button("Save") {
 						let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
 						modelContext.insert(newBook)
 						dismiss()
 					}
+					.disabled(hasValidAddress() == false)
 				}
 			}
 			.navigationTitle("Add Book")
 		}
     }
+
+	func hasValidAddress() -> Bool {
+		!title.isEmpty && !author.isEmpty
+	}
 }
 
 #Preview {
